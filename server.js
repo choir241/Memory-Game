@@ -5,6 +5,14 @@ const querystring = require("querystring");
 const figlet = require("figlet");
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 //cards are organized into objects
 const cards = {
@@ -83,11 +91,15 @@ const server = http.createServer((req,res)=>{
 }
 })
 
+app.get("/", (req,res)=>{
+    res.sendFile("index.html", {root:__dirname});
+})
+
 //setiing up a url parameter for api
 app.get("/api/cards", (req,res)=>{
     res.json(cards);
 })
-
+//server port
 app.listen(8000, () => {
     console.log(`Server running on port 8000`)
 })

@@ -1,18 +1,13 @@
-const http = require("http");
-const fs = require("fs");
-const url = require("url");
-const querystring = require("querystring");
-const figlet = require("figlet");
-const express = require("express");
+const express = require('express');
 const app = express();
-const cors = require("cors");
-const bodyParser = require("body-parser");
-
+const cors = require('cors');
+const path = require("path");
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
 
 //cards are organized into objects
 const cards = {
@@ -64,42 +59,19 @@ const cards = {
     16:{
         "color": "white"
     }
-}
+};
 
-const server = http.createServer((req,res)=>{
-    const page = url.parse(req.url).pathname;
-    const params = querystring.parse(url.parse(req.url).query);
-
-    if(page=="/"){
-        fs.readFile('index.html', function(err, data) {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(data);
-            res.end();
-          });
-    }else if (page == '/css/style.css'){
-        fs.readFile('css/style.css', function(err, data) {
-          res.write(data);
-          res.end();
-        });
-      }else if (page == '/js/main.js'){
-        fs.readFile('js/main.js', function(err, data) {
-          res.writeHead(200, {'Content-Type': 'text/javascript'});
-          res.write(data);
-          res.end();
-        });
-
-}
-})
 
 app.get("/", (req,res)=>{
-    res.sendFile("index.html", {root:__dirname});
-})
+    res.sendFile(__dirname + '/index.html')
+});
 
 //setiing up a url parameter for api
 app.get("/api/cards", (req,res)=>{
     res.json(cards);
-})
+});
+
 //server port
 app.listen(8000, () => {
     console.log(`Server running on port 8000`)
-})
+});

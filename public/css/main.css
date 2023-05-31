@@ -1,7 +1,8 @@
-/* Box Model Hack */
 * {
     -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
+/* Box Model Hack */
 
 /* Clear fix hack */
 .clearfix:after {
@@ -36,18 +37,14 @@ body {
 /******************************************
 /* LAYOUT
 /*******************************************/
-header {
 
-}
 h1{
     display: flex;
     justify-content: center;
     align-content: center;
     margin: auto;
 }
-footer {
 
-}
 
 /******************************************
 /* ADDITIONAL STYLES

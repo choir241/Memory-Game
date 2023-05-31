@@ -1,3 +1,4 @@
+//hidden cards
 
 /* Public API for cards to fetch "https://memory-game-backend-pizi.onrender.com/api/cards" */
 

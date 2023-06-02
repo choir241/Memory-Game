@@ -22,19 +22,45 @@
     display: none;
 }
 
+html{
+    font-size: 62.5%;
+}
+
 /******************************************
 /* BASE STYLES
 /*******************************************/
+.button{
+    font-size: 2rem;
+    background: none;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px grey;
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.button:hover{
+    background: grey;
+    color: white;
+    cursor: pointer;
+    transition: .8s;
+}
+
+#time{
+    font-size: 3rem;
+}
 
 body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 200vh;
+    min-height: 100vh;
 }
+
+
 
 
 
@@ -47,6 +73,7 @@ h1{
     justify-content: center;
     align-content: center;
     margin: auto;
+    font-size: 6rem;
 }
 
 
@@ -54,11 +81,16 @@ h1{
 /* ADDITIONAL STYLES
 /*******************************************/
 .gameBoard {
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     background-color: black;
     display: flex;
     flex-wrap: wrap;
+}
+.cardFront{
+    height: 100px;
+    width: 100px;
+    margin: 2rem;
 }
 
 .blue{

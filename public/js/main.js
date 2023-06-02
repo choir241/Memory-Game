@@ -3,26 +3,24 @@
 /* Public API for cards to fetch "https://memory-game-backend-pizi.onrender.com/api/cards" */
 
 const shuffleGameBoard = (data) => {
-    //have all the cards be included
-//no repeats
-//randomized each time
+    //shuffle the cards on the board game without repeats each game
 
-const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
+    const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
 
-let newSet = new Set();
+    let newSet = new Set();
 
-//this is 15 because Object.values transforms card data object into an array, and since array start at 0, the newSet.size needs to match the length of new array, aka 16
-while (newSet.size < 16){
-    newSet.add(shuffleCards(0, 15));
-}
-const randomizedIndices = [...newSet];
-const arrayOfCards = Object.values(data);
+    //an array that contains each card
+    while (newSet.size < 16){
+        newSet.add(shuffleCards(0, 15));
+    }
+    const randomizedIndices = [...newSet];
+    const arrayOfCards = Object.values(data);
 
-const randomizedCards = randomizedIndices.map(index=>arrayOfCards[index]);
+    const randomizedCards = randomizedIndices.map(index=>arrayOfCards[index]);
 
-for(let i = 0; i < randomizedCards.length; i++){
-    document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
-}   
+    for(let i = 0; i < randomizedCards.length; i++){
+        document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
+    }   
 }
  
 const fetchCardData = async() => {
@@ -32,22 +30,52 @@ const fetchCardData = async() => {
             .then(data=>{
                 shuffleGameBoard(data);
 
-});
+    });
     }catch(err){
         console.error(err);
     }
 }
 
-fetchCardData();
+let color1 = "";
+let color2 = "";
+let cardsUnveiled = 0;
+let winCondition = 0;
 
-const startGame = () => {
-    localStorage.setItem("play", true);
 
-    const check1 = localStorage.getItem("play");
-    if(check1){
-
+function checkVictoryConditions(color1, color2){
+    if(color1 === color2){
+        winCondition++;
+    }
+    if(winCondition === 8){
+        alert("You won, congratulations!!");
+         //shows start button to retry
+         document.querySelector("#start").classList.remove("hidden");
     }
 }
+
+const startGame = () => {
+    fetchCardData();
+
+    for(let cardNumber = 0; cardNumber < 16; cardNumber++){
+        document.querySelector(`.card${cardNumber}`).addEventListener("click", ()=>{
+            const card = document.querySelector(`.card${cardNumber}`);
+            card.classList.add("selected")
+            const arrayOfCardClasses = card.classList.value.split(" ");
+            const color = arrayOfCardClasses[arrayOfCardClasses.length-1];
+            cardsUnveiled++;
+            if(cardsUnveiled === 1){
+                color1 = color;
+            }else if(cardsUnveiled === 2){
+                color2 = color;
+                cardsUnveiled = 0;
+
+                checkVictoryConditions(color1, color2);
+            }
+      
+        });
+    }
+}
+
 
 //timer
 function startTimer(display) {
@@ -72,8 +100,11 @@ function startTimer(display) {
         //updates the timer display
         display.textContent = minutes + ":" + seconds;
 
+        if(winCondition === 8){
+            clearInterval(intervalId);
+        }
         //logic for timer reaching below zero
-        if (--timer < 0) {
+        if (--timer < 0 && winCondition < 8) {
             //stops timer
             clearInterval(intervalId);
             //shows start button to retry

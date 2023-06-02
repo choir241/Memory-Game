@@ -24,7 +24,7 @@ const cards = {
         "color": "violet"
     },
     5:{
-        "color": "black"
+        "color": "green"
     },
     6:{
         "color": "orange"
@@ -39,7 +39,7 @@ const cards = {
         "color": "orange"
     },
     10:{
-        "color": "black"
+        "color": "green"
     },
     11:{
         "color": "violet"
@@ -54,10 +54,10 @@ const cards = {
         "color": "yellow"
     },
     15:{
-        "color": "white"
+        "color": "sky blue"
     },
     16:{
-        "color": "white"
+        "color": "sky blue"
     }
 };
 

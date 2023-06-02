@@ -96,8 +96,13 @@ h1{
     cursor: pointer;
 }
 
+.selected{
+    border: 3px solid white;
+}
+
+/*For testing purposes only, will change*/
 .black{
-    background: white;
+    background: green;
 }
 
 .blue{

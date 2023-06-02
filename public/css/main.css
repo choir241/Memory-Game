@@ -49,6 +49,7 @@ html{
 
 #time{
     font-size: 3rem;
+    min-height: 22vh;
 }
 
 body {
@@ -81,16 +82,22 @@ h1{
 /* ADDITIONAL STYLES
 /*******************************************/
 .gameBoard {
-    width: 500px;
-    height: 500px;
+    width: 1000px;
+    height: 1000px;
     background-color: black;
     display: flex;
     flex-wrap: wrap;
 }
+
 .cardFront{
-    height: 100px;
-    width: 100px;
+    height: 200px;
+    width: 200px;
     margin: 2rem;
+    cursor: pointer;
+}
+
+.black{
+    background: white;
 }
 
 .blue{
@@ -105,8 +112,8 @@ h1{
 .violet{
     background: violet;
 }
-.black{
-    background: black;
+.white{
+    background: white;
 }
 .orange{
     background: rgb(237, 166, 35);

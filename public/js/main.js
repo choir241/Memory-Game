@@ -159,11 +159,11 @@ function startTimer(display) {
             //notifies user they lost since timer ran out before win condition was met
             alert("You Lost!");
         }
-        
+
     }, 1000);
 
 }
-        
+
     const display = document.querySelector('#time');
 
     //starts timer

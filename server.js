@@ -54,10 +54,10 @@ const cards = {
         "color": "yellow"
     },
     15:{
-        "color": "sky blue"
+        "color": "skyblue"
     },
     16:{
-        "color": "sky blue"
+        "color": "skyblue"
     }
 };
 

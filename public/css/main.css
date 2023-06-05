@@ -49,7 +49,7 @@ html{
 
 #time{
     font-size: 3rem;
-    min-height: 22vh;
+    min-height: 6vh;
 }
 
 body {
@@ -94,6 +94,11 @@ h1{
     width: 200px;
     margin: 2rem;
     cursor: pointer;
+}
+
+
+.matched{
+    border: 5px solid red;
 }
 
 .selected{

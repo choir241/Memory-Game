@@ -2,6 +2,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 /* Box Model Hack */
 
 /* Clear fix hack */
@@ -15,21 +16,21 @@
 }
 
 .clear {
-   clear: both;
+    clear: both;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-html{
+html {
     font-size: 62.5%;
 }
 
 /******************************************
 /* BASE STYLES
 /*******************************************/
-.button{
+.button {
     font-size: 2rem;
     background: none;
     border: 2px solid black;
@@ -40,16 +41,16 @@ html{
     text-align: center;
 }
 
-.button:hover{
+.button:hover {
     background: grey;
     color: white;
     cursor: pointer;
     transition: .8s;
 }
 
-#time{
+#time {
     font-size: 3rem;
-    min-height: 22vh;
+    min-height: 6vh;
 }
 
 body {
@@ -69,7 +70,7 @@ body {
 /* LAYOUT
 /*******************************************/
 
-h1{
+h1 {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -87,40 +88,52 @@ h1{
     background-color: black;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
-.cardFront{
+.cardFront {
     height: 200px;
     width: 200px;
     margin: 2rem;
     cursor: pointer;
 }
 
-.selected{
+.selected {
     border: 3px solid white;
 }
 
-.green{
+.green {
     background: rgb(72, 133, 72);
 }
-.blue{
+
+.blue {
     background: rgb(113, 113, 204);
 }
-.yellow{
+
+.yellow {
     background: rgb(219, 219, 121);
 }
+
 .red {
     background: rgb(157, 57, 57);
 }
-.violet{
+
+.violet {
     background: violet;
 }
-.white{
+
+.white {
     background: white;
 }
-.orange{
+
+.orange {
     background: rgb(237, 166, 35);
 }
+
 .pink {
     background: rgb(236, 185, 194);
+}
+
+.skyblue {
+    background-color: skyblue;
 }

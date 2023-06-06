@@ -16,30 +16,33 @@ const shuffleGameBoard = (data) => {
     //shuffle the cards on the board game without repeats each game
     const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
 
+
     let newSet = new Set();
 
     //an array that contains each card
-    while (newSet.size < 16){
+    while (newSet.size < 16) {
         newSet.add(shuffleCards(0, 15));
     }
     const randomizedIndices = [...newSet];
 
-    const randomizedCards = randomizedIndices.map(index=>arrayOfCards[index]);
+    const randomizedCards = randomizedIndices.map(index => arrayOfCards[index]);
+    // console.log(randomizedCards)
 
-    for(let i = 0; i < randomizedCards.length; i++){
+    for (let i = 0; i < randomizedCards.length; i++) {
+        console.log(randomizedCards[i].color)
+        document.querySelector(`.card${i}`).style.opacity = 0
         document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
-    }   
+    }
 }
- 
-const fetchCardData = async() => {
-    try{
-        fetch("https://memory-game-backend-pizi.onrender.com/api/cards")
-            .then(res=>res.json())
-            .then(data=>{
-                shuffleGameBoard(data);
 
-    });
-    }catch(err){
+const fetchCardData = async () => {
+    try {
+        fetch("https://memory-game-backend-pizi.onrender.com/api/cards")
+            .then(res => res.json())
+            .then(data => {
+                shuffleGameBoard(data);
+            });
+    } catch (err) {
         console.error(err);
     }
 }
@@ -82,29 +85,23 @@ function checkVictoryConditions(color1, color2, card1, card2){
 const startGame = () => {
     fetchCardData();
 
-    for(let cardNumber = 0; cardNumber < 16; cardNumber++){
-        document.querySelector(`.card${cardNumber}`).addEventListener("click", ()=>{
-            //variable for selecting card by class
+    for (let cardNumber = 0; cardNumber < 16; cardNumber++) {
+        document.querySelector(`.card${cardNumber}`).addEventListener("click", () => {
             const card = document.querySelector(`.card${cardNumber}`);
-
-            //get color class as a string
+            card.style.opacity = 1
+            // card.classList.add("selected")
             const arrayOfCardClasses = card.classList.value.split(" ");
-            const color = arrayOfCardClasses[arrayOfCardClasses.length-1];
-
+            const color = arrayOfCardClasses[arrayOfCardClasses.length - 1];
             cardsUnveiled++;
-            //check if this is first or second card unveiled
-            if(cardsUnveiled === 1){
-                card1 = cardNumber
+            if (cardsUnveiled === 1) {
                 color1 = color;
-                //adds white border when selected
-                card.classList.add("selected")
-            }else if(cardsUnveiled === 2){
+            } else if (cardsUnveiled === 2) {
                 color2 = color;
                 cardsUnveiled = 0;
                 card2 = cardNumber
                 checkVictoryConditions(color1, color2, card1, card2);
             }
-      
+
         });
     }
 }
@@ -143,8 +140,7 @@ function startTimer(display) {
         //updates the timer display
         display.textContent = minutes + ":" + seconds;
 
-        if(winCondition === 8){
-            timer = 0;
+        if (winCondition === 8) {
             clearInterval(intervalId);
             return;
         }
@@ -159,14 +155,13 @@ function startTimer(display) {
             //notifies user they lost since timer ran out before win condition was met
             alert("You Lost!");
         }
-
     }, 1000);
 
 }
 
-    const display = document.querySelector('#time');
+const display = document.querySelector('#time');
 
-    //starts timer
-    document.getElementById('start').addEventListener('click', () => { 
-		startTimer(display);
-    });     
+//starts timer
+document.getElementById('start').addEventListener('click', () => {
+    startTimer(display);
+});

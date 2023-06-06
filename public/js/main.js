@@ -28,13 +28,12 @@ const fetchCardData = async () => {
 
 
 
-
-function checkVictoryConditions(color1, color2, card1, card2){
+function checkVictoryConditions(color1, color2, card1, card2) {
     //increases amount of cards matched by one
-    if(color1 === color2){
+    if (color1 === color2) {
         winCondition++;
         //since cards match, add different border to indicate cards are matched
-   
+
         document.querySelector(`.card${card2}`).classList.add("selected");
 
         document.querySelector(`.card${card2}`).classList.add("matched");
@@ -43,16 +42,16 @@ function checkVictoryConditions(color1, color2, card1, card2){
 
     }
     //if 8 cards have been matched, you win
-    if(winCondition === 8){
+    if (winCondition === 8) {
         alert("You won, congratulations!!");
         winCondition = 0;
-         //shows start button to retry
-         document.querySelector("#start").classList.remove("hidden");
+        //shows start button to retry
+        document.querySelector("#start").classList.remove("hidden");
     }
 
-    else if(winCondition < 8 && color1 !== color2){
-        setTimeout(()=>{
-                    //since cards don't match, hide both cards
+    else if (winCondition < 8 && color1 !== color2) {
+        setTimeout(() => {
+            //since cards don't match, hide both cards
             document.querySelector(`.card${card1}`).classList.remove("selected");
             document.querySelector(`.card${card2}`).classList.remove("selected");
         }, 500)
@@ -62,6 +61,14 @@ function checkVictoryConditions(color1, color2, card1, card2){
 
 
 const startGame = () => {
+    //clear css classes added in any prior games
+    document.querySelectorAll(".selected").forEach((elem) => {
+        elem.classList.remove("selected")
+    })
+    document.querySelectorAll(".matched").forEach((elem) => {
+        elem.classList.remove("matched")
+    })
+
     fetchCardData();
 
     for (let cardNumber = 0; cardNumber < 16; cardNumber++) {
@@ -96,14 +103,6 @@ const startGame = () => {
 function startTimer(display) {
     startGame();
 
-    for(let cardNumber = 0; cardNumber < 16; cardNumber++){
-        const classesOfCard = document.querySelector(`.card${cardNumber}`).classList.value;
-        if(classesOfCard.includes("selected")){
-            document.querySelector(`.card${cardNumber}`).classList.remove("selected");
-        }else if(classesOfCard.includes("matched")){
-            document.querySelector(`.card${cardNumber}`).classList.remove("matched");
-        }
-    }
     //hide start button to prevent restarting timer
     document.querySelector("#start").classList.add("hidden");
 
@@ -147,16 +146,16 @@ function startTimer(display) {
 const shuffleGameBoard = (data) => {
     const arrayOfCards = Object.values(data);
 
-        for(let i = 0; i < arrayOfCards.length; i++){
-            const classesOfCards = document.querySelector(`.card${i}`).classList.value.split(" ");
-            const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"]
-            if(colors.includes(classesOfCards[classesOfCards.length-1])){
-                document.querySelector(`.card${i}`).classList.remove(classesOfCards[classesOfCards.length-1]);
-            };
+    for (let i = 0; i < arrayOfCards.length; i++) {
+        const classesOfCards = document.querySelector(`.card${i}`).classList.value.split(" ");
+        const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"]
+        if (colors.includes(classesOfCards[classesOfCards.length - 1])) {
+            document.querySelector(`.card${i}`).classList.remove(classesOfCards[classesOfCards.length - 1]);
         };
+    };
 
     //shuffle the cards on the board game without repeats each game
-    const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
+    const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange - minRange + 1) + minRange);
 
 
     let newSet = new Set();
@@ -169,7 +168,7 @@ const shuffleGameBoard = (data) => {
 
     const randomizedCards = randomizedIndices.map(index => arrayOfCards[index]);
 
-    for (let i = 0; i <randomizedCards.length; i++){
+    for (let i = 0; i < randomizedCards.length; i++) {
         document.querySelector(`.card${i}`).classList.add("hide");
         document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
     }

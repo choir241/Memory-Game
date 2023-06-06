@@ -97,29 +97,31 @@ h1 {
 }
 
 .cardFront {
-    height: 245px;
-    width: 245px;
+    height: 246px;
+    width: 246px;
 }
 
 
-.matched{
+.matched {
     border: 5px solid red;
 }
 
-.hide{
+.hide {
     opacity: 0;
 }
 
-.selected{
-   opacity: 1;
+.selected {
+    opacity: 1;
 }
 
-.cell, .cardBack, .cardFront{
+.cell,
+.cardBack,
+.cardFront {
     transition: .5s;
 }
 
 
-.green{
+.green {
     background: rgb(72, 133, 72);
 }
 

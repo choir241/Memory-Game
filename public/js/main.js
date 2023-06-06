@@ -1,40 +1,19 @@
-//hidden cards
+const display = document.querySelector('#time');
 
-/* Public API for cards to fetch "https://memory-game-backend-pizi.onrender.com/api/cards" */
-
-const shuffleGameBoard = (data) => {
-    const arrayOfCards = Object.values(data);
-
-        for(let i = 0; i < arrayOfCards.length; i++){
-            const classesOfCards = document.querySelector(`.card${i}`).classList.value.split(" ");
-            const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"]
-            if(colors.includes(classesOfCards[classesOfCards.length-1])){
-                document.querySelector(`.card${i}`).classList.remove(classesOfCards[classesOfCards.length-1]);
-            };
-        };
-
-    //shuffle the cards on the board game without repeats each game
-    const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
+//starts timer
+document.getElementById('start').addEventListener('click', () => {
+    startTimer(display);
+});
 
 
-    let newSet = new Set();
+let color1 = "";
+let color2 = "";
+let card1 = "";
+let card2 = "";
+let cardsUnveiled = 0;
+let winCondition = 0;
 
-    //an array that contains each card
-    while (newSet.size < 16) {
-        newSet.add(shuffleCards(0, 15));
-    }
-    const randomizedIndices = [...newSet];
-
-    const randomizedCards = randomizedIndices.map(index => arrayOfCards[index]);
-    // console.log(randomizedCards)
-
-    for (let i = 0; i < randomizedCards.length; i++) {
-        console.log(randomizedCards[i].color)
-        document.querySelector(`.card${i}`).style.opacity = 0
-        document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
-    }
-}
-
+//fetches color objects
 const fetchCardData = async () => {
     try {
         fetch("https://memory-game-backend-pizi.onrender.com/api/cards")
@@ -47,23 +26,20 @@ const fetchCardData = async () => {
     }
 }
 
-let color1 = "";
-let color2 = "";
-let card1 = "";
-let card2 = "";
-let cardsUnveiled = 0;
-let winCondition = 0;
+
+
 
 function checkVictoryConditions(color1, color2, card1, card2){
     //increases amount of cards matched by one
     if(color1 === color2){
         winCondition++;
         //since cards match, add different border to indicate cards are matched
-        document.querySelector(`.card${card1}`).classList.remove("selected");
-        document.querySelector(`.card${card2}`).classList.remove("selected");
+   
+        document.querySelector(`.card${card2}`).classList.add("selected");
 
-        document.querySelector(`.card${card1}`).classList.add("matched");
         document.querySelector(`.card${card2}`).classList.add("matched");
+        document.querySelector(`.card${card1}`).classList.add("matched");
+
 
     }
     //if 8 cards have been matched, you win
@@ -74,10 +50,13 @@ function checkVictoryConditions(color1, color2, card1, card2){
          document.querySelector("#start").classList.remove("hidden");
     }
 
-    else{
-        //since cards don't match, remove white borders
-        document.querySelector(`.card${card1}`).classList.remove("selected");
-        document.querySelector(`.card${card2}`).classList.remove("selected");
+    else if(winCondition < 8 && color1 !== color2){
+        setTimeout(()=>{
+                    //since cards don't match, hide both cards
+            document.querySelector(`.card${card1}`).classList.remove("selected");
+            document.querySelector(`.card${card2}`).classList.remove("selected");
+        }, 500)
+
     }
 }
 
@@ -86,19 +65,24 @@ const startGame = () => {
     fetchCardData();
 
     for (let cardNumber = 0; cardNumber < 16; cardNumber++) {
+
         document.querySelector(`.card${cardNumber}`).addEventListener("click", () => {
+
             const card = document.querySelector(`.card${cardNumber}`);
-            card.style.opacity = 1
-            // card.classList.add("selected")
             const arrayOfCardClasses = card.classList.value.split(" ");
             const color = arrayOfCardClasses[arrayOfCardClasses.length - 1];
+
             cardsUnveiled++;
             if (cardsUnveiled === 1) {
+                card1 = cardNumber;
+                document.querySelector(`.card${card1}`).classList.add("selected")
                 color1 = color;
             } else if (cardsUnveiled === 2) {
+                card2 = cardNumber;
+                document.querySelector(`.card${card2}`).classList.add("selected")
                 color2 = color;
                 cardsUnveiled = 0;
-                card2 = cardNumber
+
                 checkVictoryConditions(color1, color2, card1, card2);
             }
 
@@ -107,12 +91,12 @@ const startGame = () => {
 }
 
 
+
 //timer
 function startTimer(display) {
     startGame();
 
     for(let cardNumber = 0; cardNumber < 16; cardNumber++){
-
         const classesOfCard = document.querySelector(`.card${cardNumber}`).classList.value;
         if(classesOfCard.includes("selected")){
             document.querySelector(`.card${cardNumber}`).classList.remove("selected");
@@ -159,9 +143,40 @@ function startTimer(display) {
 
 }
 
-const display = document.querySelector('#time');
 
-//starts timer
-document.getElementById('start').addEventListener('click', () => {
-    startTimer(display);
-});
+const shuffleGameBoard = (data) => {
+    const arrayOfCards = Object.values(data);
+
+        for(let i = 0; i < arrayOfCards.length; i++){
+            const classesOfCards = document.querySelector(`.card${i}`).classList.value.split(" ");
+            const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"]
+            if(colors.includes(classesOfCards[classesOfCards.length-1])){
+                document.querySelector(`.card${i}`).classList.remove(classesOfCards[classesOfCards.length-1]);
+            };
+        };
+
+    //shuffle the cards on the board game without repeats each game
+    const shuffleCards = (minRange, maxRange) => Math.floor(Math.random() * (maxRange-minRange +1) + minRange);
+
+
+    let newSet = new Set();
+
+    //an array that contains each card
+    while (newSet.size < 16) {
+        newSet.add(shuffleCards(0, 15));
+    }
+    const randomizedIndices = [...newSet];
+
+    const randomizedCards = randomizedIndices.map(index => arrayOfCards[index]);
+
+    for (let i = 0; i <randomizedCards.length; i++){
+        document.querySelector(`.card${i}`).classList.add("hide");
+        document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
+    }
+}
+
+
+
+
+
+

@@ -1,13 +1,32 @@
-//hidden cards
+const display = document.querySelector('#time');
 
-/* Public API for cards to fetch "https://memory-game-backend-pizi.onrender.com/api/cards" */
+//starts timer
+document.getElementById('start').addEventListener('click', () => { 
+	startTimer(display);
+});     
+
+
+const fetchData = async() => {
+    try {
+    //fetches the color data from the backend API
+        fetch("https://memory-game-backend-pizi.onrender.com/api/cards")
+            .then(res => res.json())
+            .then(data =>shuffleGameBoard(data));
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 const shuffleGameBoard = (data) => {
+
+    //changes the object of colors into an array of objects
     const arrayOfCards = Object.values(data);
 
         for(let i = 0; i < arrayOfCards.length; i++){
+            //check if color string exists in the html element first before removing it (resetting the board of color classes)
             const classesOfCards = document.querySelector(`.card${i}`).classList.value.split(" ");
-            const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"]
+            const colors = ["blue", "red", "yellow", "violet", "green", "orange", "pink", "skyblue"];
+
             if(colors.includes(classesOfCards[classesOfCards.length-1])){
                 document.querySelector(`.card${i}`).classList.remove(classesOfCards[classesOfCards.length-1]);
             };
@@ -18,113 +37,27 @@ const shuffleGameBoard = (data) => {
 
     let newSet = new Set();
 
-    //an array that contains each card
-    while (newSet.size < 16){
+    //an array that contains each randomized index of a card
+    while (newSet.size < 16) {
         newSet.add(shuffleCards(0, 15));
     }
+
+    //changes set of randomized indices into an array
     const randomizedIndices = [...newSet];
 
-    const randomizedCards = randomizedIndices.map(index=>arrayOfCards[index]);
+    //takes the randomized index and creates an array consisting of color objects whose index in arrayOfCards variable matched
+    const randomizedCards = randomizedIndices.map(index => arrayOfCards[index]);
 
-    for(let i = 0; i < randomizedCards.length; i++){
+    for (let i = 0; i < randomizedCards.length; i++) {
+        document.querySelector(`.card${i}`).style.opacity = 0
         document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
-    }   
-}
- 
-const fetchCardData = async() => {
-    try{
-        fetch("https://memory-game-backend-pizi.onrender.com/api/cards")
-            .then(res=>res.json())
-            .then(data=>{
-                shuffleGameBoard(data);
-
-    });
-    }catch(err){
-        console.error(err);
     }
 }
 
-let color1 = "";
-let color2 = "";
-let card1 = "";
-let card2 = "";
-let cardsUnveiled = 0;
 let winCondition = 0;
 
-function checkVictoryConditions(color1, color2, card1, card2){
-    //increases amount of cards matched by one
-    if(color1 === color2){
-        winCondition++;
-        //since cards match, add different border to indicate cards are matched
-        document.querySelector(`.card${card1}`).classList.remove("selected");
-        document.querySelector(`.card${card2}`).classList.remove("selected");
 
-        document.querySelector(`.card${card1}`).classList.add("matched");
-        document.querySelector(`.card${card2}`).classList.add("matched");
-
-    }
-    //if 8 cards have been matched, you win
-    if(winCondition === 8){
-        alert("You won, congratulations!!");
-        winCondition = 0;
-         //shows start button to retry
-         document.querySelector("#start").classList.remove("hidden");
-    }
-
-    else{
-        //since cards don't match, remove white borders
-        document.querySelector(`.card${card1}`).classList.remove("selected");
-        document.querySelector(`.card${card2}`).classList.remove("selected");
-    }
-}
-
-
-const startGame = () => {
-    fetchCardData();
-
-    for(let cardNumber = 0; cardNumber < 16; cardNumber++){
-        document.querySelector(`.card${cardNumber}`).addEventListener("click", ()=>{
-            //variable for selecting card by class
-            const card = document.querySelector(`.card${cardNumber}`);
-
-            //get color class as a string
-            const arrayOfCardClasses = card.classList.value.split(" ");
-            const color = arrayOfCardClasses[arrayOfCardClasses.length-1];
-
-            cardsUnveiled++;
-            //check if this is first or second card unveiled
-            if(cardsUnveiled === 1){
-                card1 = cardNumber
-                color1 = color;
-                //adds white border when selected
-                card.classList.add("selected")
-            }else if(cardsUnveiled === 2){
-                color2 = color;
-                cardsUnveiled = 0;
-                card2 = cardNumber
-                checkVictoryConditions(color1, color2, card1, card2);
-            }
-      
-        });
-    }
-}
-
-
-//timer
-function startTimer(display) {
-    startGame();
-
-    for(let cardNumber = 0; cardNumber < 16; cardNumber++){
-
-        const classesOfCard = document.querySelector(`.card${cardNumber}`).classList.value;
-        if(classesOfCard.includes("selected")){
-            document.querySelector(`.card${cardNumber}`).classList.remove("selected");
-        }else if(classesOfCard.includes("matched")){
-            document.querySelector(`.card${cardNumber}`).classList.remove("matched");
-        }
-    }
-    //hide start button to prevent restarting timer
-    document.querySelector("#start").classList.add("hidden");
+const startTimer = (display) => {
 
     //set timer to desired start time
     let timer = 60 * .5;
@@ -143,14 +76,12 @@ function startTimer(display) {
         //updates the timer display
         display.textContent = minutes + ":" + seconds;
 
-        if(winCondition === 8){
-            timer = 0;
-            clearInterval(intervalId);
-            return;
+        if(winCondition < 8){
+            timer--
         }
 
-        //logic for timer reaching below zero
-        if (--timer < 0 && winCondition < 8) {
+         //logic for timer reaching below zero
+         if (timer < 0 && winCondition < 8) {
             winCondition = 0;
             //stops timer
             clearInterval(intervalId);
@@ -158,15 +89,10 @@ function startTimer(display) {
             document.querySelector("#start").classList.remove("hidden");
             //notifies user they lost since timer ran out before win condition was met
             alert("You Lost!");
-        }
-        
-    }, 1000);
+        } 
 
+    },1000);
+    
 }
-        
-    const display = document.querySelector('#time');
 
-    //starts timer
-    document.getElementById('start').addEventListener('click', () => { 
-		startTimer(display);
-    });     
+

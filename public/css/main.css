@@ -84,7 +84,6 @@ h1{
 .gameBoard {
     width: 1000px;
     height: 1000px;
-    background-color: black;
     display: flex;
     flex-wrap: wrap;
 }

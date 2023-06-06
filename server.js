@@ -11,46 +11,46 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //cards are organized into objects
 const cards = {
-    1:{
+    1: {
         "color": "blue"
     },
-    2:{
+    2: {
         "color": "red"
     },
-    3:{
+    3: {
         "color": "yellow"
     },
-    4:{
+    4: {
         "color": "violet"
     },
-    5:{
+    5: {
         "color": "green"
     },
-    6:{
+    6: {
         "color": "orange"
     },
-    7:{
+    7: {
         "color": "pink"
     },
-    8:{
+    8: {
         "color": "pink"
     },
-    9:{
+    9: {
         "color": "orange"
     },
-    10:{
+    10: {
         "color": "green"
     },
-    11:{
+    11: {
         "color": "violet"
     },
-    12:{
+    12: {
         "color": "red"
     },
-    13:{
+    13: {
         "color": "blue"
     },
-    14:{
+    14: {
         "color": "yellow"
     },
     15:{
@@ -62,12 +62,12 @@ const cards = {
 };
 
 
-app.get("/", (req,res)=>{
+app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html')
 });
 
-//setiing up a url parameter for api
-app.get("/api/cards", (req,res)=>{
+//setting up a url parameter for api
+app.get("/api/cards", (req, res) => {
     res.json(cards);
 });
 

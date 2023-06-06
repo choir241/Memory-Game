@@ -101,11 +101,17 @@ h1 {
     width: 245px;
 }
 
-/* .selected {
-    border: 3px solid white;
-} */
 
-.green {
+.matched{
+    border: 5px solid red;
+}
+
+.selected{
+    border: 3px solid white;
+}
+
+
+.green{
     background: rgb(72, 133, 72);
 }
 

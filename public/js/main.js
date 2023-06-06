@@ -21,6 +21,7 @@ const shuffleGameBoard = (data) => {
 
     for (let i = 0; i < randomizedCards.length; i++) {
         console.log(randomizedCards[i].color)
+        document.querySelector(`.card${i}`).style.opacity = 0
         document.querySelector(`.card${i}`).classList.add(`${randomizedCards[i].color}`);
     }
 }
@@ -60,7 +61,8 @@ const startGame = () => {
     for (let cardNumber = 0; cardNumber < 16; cardNumber++) {
         document.querySelector(`.card${cardNumber}`).addEventListener("click", () => {
             const card = document.querySelector(`.card${cardNumber}`);
-            card.classList.add("selected")
+            card.style.opacity = 1
+            // card.classList.add("selected")
             const arrayOfCardClasses = card.classList.value.split(" ");
             const color = arrayOfCardClasses[arrayOfCardClasses.length - 1];
             cardsUnveiled++;

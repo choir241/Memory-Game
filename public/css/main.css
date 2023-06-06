@@ -85,22 +85,25 @@ h1 {
 .gameBoard {
     width: 1000px;
     height: 1000px;
-    background-color: black;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
-.cardFront {
-    height: 200px;
-    width: 200px;
-    margin: 2rem;
+.cell {
+    border: 2.5px solid black;
+    height: 250px;
+    width: 250px;
     cursor: pointer;
 }
 
-.selected {
-    border: 3px solid white;
+.cardFront {
+    height: 245px;
+    width: 245px;
 }
+
+/* .selected {
+    border: 3px solid white;
+} */
 
 .green {
     background: rgb(72, 133, 72);

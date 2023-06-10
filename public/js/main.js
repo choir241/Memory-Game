@@ -47,15 +47,16 @@ function checkVictoryConditions(color1, color2, card1, card2) {
         winCondition = 0;
         //shows start button to retry
         document.querySelector("#start").classList.remove("hidden");
+        //refreshes page
+        location.reload(true);
     }
 
     else if (winCondition < 8 && color1 !== color2) {
         setTimeout(() => {
             //since cards don't match, hide both cards
-            document.querySelector(`.card${card1}`).classList.remove("selected");
-            document.querySelector(`.card${card2}`).classList.remove("selected");
+            firstCard.remove("selected");
+            secondCard.remove("selected");
         }, 500)
-
     }
 }
 
@@ -137,6 +138,8 @@ function startTimer(display) {
             document.querySelector("#start").classList.remove("hidden");
             //notifies user they lost since timer ran out before win condition was met
             alert("You Lost!");
+            //refreshes page
+            location.reload(true);
         }
     }, 1000);
 

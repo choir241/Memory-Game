@@ -29,16 +29,16 @@ const fetchCardData = async () => {
 
 
 function checkVictoryConditions(color1, color2, card1, card2) {
-    //increases amount of cards matched by one
-    if (color1 === color2) {
+    let firstCard = document.querySelector(`.card${card1}`).classList
+    let secondCard = document.querySelector(`.card${card2}`).classList
+
+    //increases amount of cards matched by one, as long as they are not already matched
+    if (color1 === color2 && !firstCard.contains("matched") && !secondCard.contains("matched")) {
         winCondition++;
+
         //since cards match, add different border to indicate cards are matched
-
-        document.querySelector(`.card${card2}`).classList.add("selected");
-
-        document.querySelector(`.card${card2}`).classList.add("matched");
-        document.querySelector(`.card${card1}`).classList.add("matched");
-
+        firstCard.add("matched");
+        secondCard.add("matched");
 
     }
     //if 8 cards have been matched, you win

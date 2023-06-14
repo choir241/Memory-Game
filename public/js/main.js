@@ -108,7 +108,7 @@ function startTimer(display) {
     document.querySelector("#start").classList.add("hidden");
 
     //set timer to desired start time
-    let timer = 60 * .5;
+    let timer = 60 * 3;
 
     //delays following function by one machine time millisecond
     const intervalId = setInterval(() => {

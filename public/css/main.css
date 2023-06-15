@@ -122,23 +122,23 @@ h1 {
 
 
 .green {
-    background: rgb(72, 133, 72);
+    background: rgba(76, 108, 76, 0.989);
 }
 
 .blue {
-    background: rgb(113, 113, 204);
+    background: rgb(136, 136, 223);
 }
 
 .yellow {
-    background: rgb(219, 219, 121);
+    background: rgb(219, 219, 127);
 }
 
 .red {
-    background: rgb(157, 57, 57);
+    background: rgb(119, 52, 52);
 }
 
 .violet {
-    background: violet;
+    background: rgb(211, 139, 211);
 }
 
 .white {
